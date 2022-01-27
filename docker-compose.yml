@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  mp3: ## nome do container e tambem deve ser o nome do fascgi
+    build:
+      args:
+        user: phelipe
+        uid:  1000
+      context: ./
+      dockerfile: DockerFile
+    image: phelipestering/mp3php ## nome da aplicacao aqui
+
+    working_dir: /var/www/ ##document root do nginx
+    volumes:
+      - ./:/var/www/ ## onde sera armazenado os arquivos
+    restart: always ##sempre reiniciar o container quando parar
+    networks:
+      - mp3php ##nome da rede pode ser qualquer um
+
+  #nginx
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - mp3php
+
+  php:
+    image: php:8.0-fpm
+    volumes:
+      - ./:/var/www
+    networks:
+      - mp3php
+
+
+
+  # redis
+  redis:
+    image: redis:latest
+    networks:
+      - mp3php
+
+  # db
+
+  mysql:
+    platform: linux/x86_64
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3307:3306
+    volumes:
+      - ./.docker/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: APP
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_PASSWORD: 1234
+    networks:
+      - mp3php
+
+networks:
+  mp3php:
+    driver: bridge
