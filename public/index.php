@@ -21,6 +21,8 @@
     <div class="container">
 
         <?php
+            include_once './pages/helpers.php';
+
             if(isset($_GET['page'])){
                 if(file_exists("pages/{$_GET['page']}.php")){
                     include_once "pages/{$_GET['page']}.php";
