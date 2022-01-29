@@ -24,7 +24,7 @@
     ?>
     <div class="col-3 album">
 
-        <a href="">
+        <a href="?page=musics&album=<?=$nameAlbum?>">
             <img src="<?=$imgAlbum?>" alt="<?=$nameAlbum?>" class="img-album">
             <h4><?=$nameAlbum?> </h4>
         </a>
