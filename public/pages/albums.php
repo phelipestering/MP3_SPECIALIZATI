@@ -1,5 +1,10 @@
 <h1>Album</h1>
 
+
+<a href="?page=novo_album" class="btn btn-success">Adicionar Novo Album</a>
+
+<hr>
+
 <div class="row">
     <?php
         $albums = getAlbums();
